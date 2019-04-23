@@ -136,7 +136,11 @@ padding-bottom: 10px;
     text-align: center;
     font-size: 1,5em;
 }
-
+.uslugi h1 {
+    text-align: center;
+    font-size: 1,5em;
+}
+}
 
 @media screen and (min-width:1024px){
 .carousel h2{
