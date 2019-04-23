@@ -132,9 +132,9 @@ padding-bottom: 10px;
     padding-bottom: 2.5em;
     margin: 0 auto;
 }
-.uslugi {
-    text-align: center;
-    font-size: 1.5em;
+.uslugi h1 {
+        text-align: center;
+        font-size: 1.5em;
 }
 }
 
