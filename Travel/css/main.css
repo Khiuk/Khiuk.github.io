@@ -4,7 +4,10 @@ body, html {
   font-family: 'Poppins', sans-serif;
   color: #222;
 }
-
+.navbar-brand {
+  font-family: 'Concert One', cursive;
+  font-size: 50px !important;
+}
 .navbar-brand img {
   width: 3.5rem;
 }
