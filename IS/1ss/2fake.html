@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"?
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel=stylesheet href="../style.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<script type="text/javascript" src="jquery.gdocsviewer.min.js"></script>
+</head>
+<body>
+<style>
+p{
+  align: left;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  font-size: 2.3rem;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+ position: relative;
+ overflow-x: hidden;
+}
+
+body,
+html { height: 100%;}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {background-color: transparent;}
+/* Wrappers */
+#wrapper {
+ padding-left: 0;
+ -webkit-transition: all 0.5s ease;
+ -moz-transition: all 0.5s ease;
+ -o-transition: all 0.5s ease;
+ transition: all 0.5s ease;
+}
+#wrapper.toggled {
+ padding-left: 220px;
+}
+#sidebar-wrapper {
+ z-index: 1000;
+ left: 220px;
+ width: 0;
+ height: 100%;
+ margin-left: -220px;
+ overflow-y: auto;
+ overflow-x: hidden;
+ background: #1a1a1a;
+ -webkit-transition: all 0.5s ease;
+ -moz-transition: all 0.5s ease;
+ -o-transition: all 0.5s ease;
+ transition: all 0.5s ease;
+}
+#sidebar-wrapper::-webkit-scrollbar {
+ display: none;
+}
+#wrapper.toggled #sidebar-wrapper {
+ width: 220px;
+}
+#page-content-wrapper {
+ width: 100%;
+ padding-top: 70px;
+}
+#wrapper.toggled #page-content-wrapper {
+ position: absolute;
+ margin-right: -220px;
+}
+/* Sidebar nav styles */
+.sidebar-nav {
+ position: absolute;
+ top: 0;
+ width: 220px;
+ margin: 0;
+ padding: 0;
+ list-style: none;
+}
+.sidebar-nav li {
+ position: relative;
+ line-height: 20px;
+ display: inline-block;
+ width: 100%;
+}
+.sidebar-nav li:before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ z-index: -1;
+ height: 100%;
+ width: 3px;
+ background-color: #1c1c1c;
+ -webkit-transition: width .2s ease-in;
+ -moz-transition: width .2s ease-in;
+ -ms-transition: width .2s ease-in;
+ transition: width .2s ease-in;
+
+}
+.sidebar-nav li:first-child a {
+ color: #fff;
+ background-color: #1a1a1a;
+}
+.sidebar-nav li:nth-child(2):before {
+ background-color: #ec1b5a;
+}
+.sidebar-nav li:nth-child(3):before {
+ background-color: #79aefe;
+}
+.sidebar-nav li:nth-child(4):before {
+ background-color: #314190;
+}
+.sidebar-nav li:nth-child(5):before {
+ background-color: #279636;
+}
+.sidebar-nav li:nth-child(6):before {
+ background-color: #7d5d81;
+}
+.sidebar-nav li:nth-child(7):before {
+ background-color: #acab2f;
+}
+.sidebar-nav li:nth-child(8):before {
+ background-color: #2d2366;
+}
+.sidebar-nav li:nth-child(9):before {
+ background-color: #35acdf;
+}
+.sidebar-nav li:nth-child(10):before {
+ background-color: #76a638;
+}
+.sidebar-nav li:hover:before,
+.sidebar-nav li.open:hover:before {
+ width: 100%;
+ -webkit-transition: width .2s ease-in;
+ -moz-transition: width .2s ease-in;
+ -ms-transition: width .2s ease-in;
+ transition: width .2s ease-in;
+
+}
+.sidebar-nav li a {
+ display: block;
+ color: #ddd;
+ text-decoration: none;
+ padding: 10px 15px 10px 30px;
+}
+.sidebar-nav li a:hover,
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus,
+.sidebar-nav li.open a:hover,
+.sidebar-nav li.open a:active,
+.sidebar-nav li.open a:focus{
+ color: #fff;
+ text-decoration: none;
+ background-color: transparent;
+}
+.sidebar-nav > .sidebar-brand {
+ height: 65px;
+ font-size: 10px;
+ line-height: 44px;
+}
+.sidebar-nav .dropdown-menu {
+ position: relative;
+ width: 100%;
+ padding: 0;
+ margin: 0;
+ border-radius: 0;
+ border: none;
+ background-color: #222;
+ box-shadow: none;
+}
+/* Hamburger-Cross */
+.hamburger {
+ position: fixed;
+ top: 20px;
+ z-index: 999;
+ display: block;
+ width: 32px;
+ height: 32px;
+ margin-left: 15px;
+ background: transparent;
+ border: none;
+}
+.hamburger:hover,
+.hamburger:focus,
+.hamburger:active {
+ outline: none;
+}
+.hamburger.is-closed:before {
+ content: '';
+ display: block;
+ width: 100px;
+ font-size: 14px;
+ color: #fff;
+ line-height: 32px;
+ text-align: center;
+ opacity: 0;
+ -webkit-transform: translate3d(0,0,0);
+ -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed:hover:before {
+ opacity: 1;
+ display: block;
+ -webkit-transform: translate3d(-100px,0,0);
+ -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed .hamb-top,
+.hamburger.is-closed .hamb-middle,
+.hamburger.is-closed .hamb-bottom,
+.hamburger.is-open .hamb-top,
+.hamburger.is-open .hamb-middle,
+.hamburger.is-open .hamb-bottom {
+ position: absolute;
+ left: 0;
+ height: 4px;
+ width: 100%;
+}
+.hamburger.is-closed .hamb-top,
+.hamburger.is-closed .hamb-middle,
+.hamburger.is-closed .hamb-bottom {
+ background-color: #1a1a1a;
+}
+.hamburger.is-closed .hamb-top {
+ top: 5px;
+ -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed .hamb-middle {
+ top: 50%;
+ margin-top: -2px;
+}
+.hamburger.is-closed .hamb-bottom {
+ bottom: 5px;
+ -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed:hover .hamb-top {
+ top: 0;
+ -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-closed:hover .hamb-bottom {
+ bottom: 0;
+ -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-open .hamb-top,
+.hamburger.is-open .hamb-middle,
+.hamburger.is-open .hamb-bottom {
+ background-color: #1a1a1a;
+}
+.hamburger.is-open .hamb-top,
+.hamburger.is-open .hamb-bottom {
+ top: 50%;
+ margin-top: -2px;
+}
+.hamburger.is-open .hamb-top {
+ -webkit-transform: rotate(45deg);
+ -webkit-transition: -webkit-transform .2s cubic-bezier(.73,1,.28,.08);
+}
+.hamburger.is-open .hamb-middle { display: none; }
+.hamburger.is-open .hamb-bottom {
+ -webkit-transform: rotate(-45deg);
+ -webkit-transition: -webkit-transform .2s cubic-bezier(.73,1,.28,.08);
+}
+.hamburger.is-open:before {
+ content: '';
+ display: block;
+ width: 100px;
+ font-size: 14px;
+ color: #fff;
+ line-height: 32px;
+ text-align: center;
+ opacity: 0;
+ -webkit-transform: translate3d(0,0,0);
+ -webkit-transition: all .35s ease-in-out;
+}
+.hamburger.is-open:hover:before {
+ opacity: 1;
+ display: block;
+ -webkit-transform: translate3d(-100px,0,0);
+ -webkit-transition: all .35s ease-in-out;
+}
+/* Overlay */
+.overlay {
+ position: fixed;
+ display: none;
+ width: 100%;
+ height: 100%;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ background-color: rgba(250,250,250,.8);
+ z-index: 1;
+}
+.spisok {
+  font-size: 2rem;
+}
+</style>
+
+ <div id="wrapper">
+ <div class="overlay"></div>
+
+ <!-- Sidebar -->
+ <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+ <ul class="nav sidebar-nav">
+ <li class="sidebar-brand">
+   <a href="../index.html" class="embed" style="font-size:15px">МЕДИАГРАМОТНОСТЬ</a>
+   
+   </a>
+   </li>
+   <li>
+     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Социальные сети<span class="caret"></span></a>
+     <ul class="dropdown-menu" role="menu">
+     <li class="dropdown-header">Содержание</li>
+     <li><a href="1Dangerous.html">Возможности и опасности <br> соц.сетей</a></li>
+     <li><a href="2fake.html">Как отличить фейк <br> от оригинала</a></li>
+     <li><a href="3Cybermob.html">Кибермоббинг</a></li>
+     <li><a href="4Socialrules.html">Правила поведения <br> в социальных сетях</a></li>
+     </ul>
+     </li>
+      <div class="mydiv"></div>
+   </li>
+   <li>
+   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новостная грамотность <span class="caret"></span></a>
+   <ul class="dropdown-menu" role="menu">
+   <li class="dropdown-header">Содержание</li>
+   <li><a href="../2ng/1PowofInf.html">Сила информации: <br> зачем нам нужны новости</a></li>
+   <li><a href="../2ng/2Jurnalist.html">Журналистика фактов <br> и журналистика мнений</a></li>
+   <li><a href="../2ng/3prvFactov.html">Проверка фактов <br> и поиск истины</a></li>
+   <li><a href="../2ng/4Algoritm.html">Алгоритм оценки <br> источников</a></li>
+   <li><a href="../2ng/5Mechanics.html">Механизм разбора <br> новостей</a></li>
+   </ul>
+   </li>
+   <li>
+   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Почтовые сервисы<span class="caret"></span></a>
+   <ul class="dropdown-menu" role="menu">
+   <li class="dropdown-header">Содержание</li>
+   <li><a href="../3e-mail/1mail.html">Работа с почтовыми <br> сервисами</a></li>
+   <li><a href="../3e-mail/2Yamail.html">Яндекс почта</a></li>
+   <li><a href="../3e-mail/3Marks.html">Работа с метками</a></li>
+   <li><a href="../3e-mail/4RulesSettings.html">Создание и настройка<br>правил</a></li>
+   <li><a href="../3e-mail/5BlackNwhite.html">Белый и черный список</a></li>
+   <li><a href="../3e-mail/6otherboxes.html">Сбор почты с <br>других почтовых ящиков</a></li>
+   <li><a href="../3e-mail/7Search.html">Поисковые службы</a></li>
+   </ul>
+   </li>
+   <li>
+   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Облачные хранилища<span class="caret"></span></a>
+   <ul class="dropdown-menu" role="menu">
+   <li class="dropdown-header">Содержание</li>
+   <li><a href="../3clouds/1cloud.html">Облачные хранилища</a></li>
+   <li><a href="../3clouds/2Lang.html">Язык запросов</a></li>
+
+   </ul>
+   </li>
+   <li>
+   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Электронные финансы <span class="caret"></span></a>
+   <ul class="dropdown-menu" role="menu">
+   <li class="dropdown-header">Содержание</li>
+   <li><a href="../4e-finances/1e-com.html">Электронная коммерция</a></li>
+   <li><a href="../4e-finances/2Mbank.html">Мобильный банкинг</a></li>
+   <li><a href="../4e-finances/3e-cards.html">Правила безопасного <br> пользования <br> кредитными картами <br> в Интернете</a></li>
+   </ul>
+   </li>
+   <li>
+   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Родительский контроль <span class="caret"></span></a>
+   <ul class="dropdown-menu" role="menu">
+   <li class="dropdown-header">Содержание</li>
+   <li><a href="../5Pcontrol/1safeapps.html">Приложения для <br> обеспечения безопасного <br> доступа детей в интернет</a></li>
+   <li><a href="../5Pcontrol/2ChildInt.html">Детский интернет</a></li>
+   <li><a href="../5Pcontrol/3SphSecurity.html">Безопасность работы <br> со смартфонами
+   </a></li>
+   <li><a href="../5Pcontrol/4rulesForChildren.html">Правила для детей</a></li>
+   </ul>
+   </li>
+   <li class="dropdown">
+   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Digital-экология <span class="caret"></span></a>
+   <ul class="dropdown-menu" role="menu">
+   <li class="dropdown-header">Содержание</li>
+   <li><a href="../6D-ecology/1IntDep.html">Интернет-зависимость</a></li>
+   <li><a href="../6D-ecology/2DangIntDep.html">Чем опасна <br> интернет-зависимость <br> и как ее избежать?</a></li>
+   <li><a href="../6D-ecology/3MediaHarmony.html">Как жить в гармонии <br> с медиа?</a></li>
+   </ul>
+   </li>
+   </nav>
+ <!-- /#sidebar-wrapper -->
+
+ <!-- Page Content -->
+ <div id="page-content-wrapper">
+ <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+ <span class="hamb-top"></span>
+ <span class="hamb-middle"></span>
+ <span class="hamb-bottom"></span>
+ </button>
+ <div class="container">
+ <div class="row text-justify">
+ <div class="col-lg-8 col-lg-offset-2">
+   <h1 align="left" class="a">КАК ОТЛИЧИТЬ ФЕЙК ОТ ОРИГИНАЛА</h1>
+<p align="left">В контексте социальных сетей фейками называют поддельные страницы
+реальных людей с идентичными фотографиями и данными. Чаще всего
+фейковые страницы создают под профайлы известных людей. Как же
+отличить фейк от оригинала? Существует несколько признаков фейковых
+страниц.
+<img src="../img/fake.png" alt="">
+</p>
+<ol class="spisok push">
+  <li>Фотографии, «вырванные» из других социальных
+сетей или поисковых сервисов. Когда Вы выкладываете
+фотографию, многие социальные сети помечают её
+своим логотипом и скачать ее из сервиса без него
+невозможно. Также при скачке таких фото теряется
+качество изображения. Если Вы заметили, к примеру,
+что в профайле «вконтакте» много фотографий
+из «одноклассников» и качество оставляет желать
+лучшего, вполне вероятно, что страница фейковая.</li>
+  <li>«Пустой» профайл. Обычно создатели фейковых
+страничек не особо стараются повторить оригинал: не
+указывают личную информацию, интересы и так далее.
+Если никаких данных, кроме имени, не указано, стоит
+насторожиться.</li>
+  <li>В общении с другими людьми обладатель фейковой
+страницы обычно пишет общими фразами, никогда не
+указывает детали.
+</li>
+  <li>Если страница создана пару дней назад, а все
+фотографии загружены одной датой – это тоже,
+вероятнее всего, фейк.</li>
+  <li>От фейков приходит много спама, так как многие
+мошенники создают такие странички для накрутки
+голосов или приглашения людей в свои ресурсы.</li>
+  <li>Первые 100 друзей у фейка обычно реальные люди,
+поэтому, если вы решили проверить липовая страница
+или нет, просмотрите всех друзей в ленте.</li>
+  <li>Если указана школа/университет и год окончания,
+то проверьте, есть ли в друзьях у человека люди из
+этой школы. Напишите им, спросите, знакомы ли они с
+человеком лично.</li>
+  <li>Посмотрите записи на стене и найдите первую. Когда
+она была сделана? Чем старше аккаунт, тем выше
+вероятность, что он подлинный.</li>
+</ol>
+<h1 align="left" class="a">Встречают по аватарке,а провожают по контенту</h1>
+<p align="left">Страничка в социальных сетях – это
+мощный инструмент формирования
+имиджа человека, поэтому так необходимо
+внимательно относиться к тому, как она
+выглядит. Но как найти эту грань между
+излишней скрытностью и чрезмерным
+хвастовством? Ведь сегодня принято встречать
+человека по аватарке, а провожать по
+контенту страницы. </p>
+<p align="left">Медиамир стал настолько реальным, что
+мы воспринимаем страницу человека, как его
+самого. Смотрим на записи и делаем выводы. </p>
+<p align="left">Если у Вас «открытые» аккаунты в
+социальных сетях, то нужно понимать, что
+информацию в них может увидеть любой
+пользователь</p>
+<p align="left">В связи с этим, важной проблемой
+становится эмоциональная зависимость от
+социальных сетей и излишняя откровенность.
+Большинству пользователей зачастую
+трудно удержаться от соблазна рассказать о
+приобретении машины, квартиры, повышении
+на работе, путешествии или утреннем кофе.</p>
+  <p align="left">Контент страницы – личная информация,
+контакты, фотографии, геолокация –
+позволяет узнать Ваше окружение, интересы и
+виды активности. Визуальный контент обычно
+проходит внутреннюю модерацию, позволяет
+оценить уровень уверенности, смелости и
+адекватности.</p>
+<p align="left">Мы не призываем Вас оставлять аккаунты
+пустыми, но не стоит забывать о настройках
+приватности.</p>
+<p align="left">При этом важно заметить, что быть
+и казаться – разные понятия. То, что
+демонстрируется в социальных сетях, не
+всегда соответствует реальности. </p>
+<p align="left">Нельзя забывать, что в современном мире
+социальные сети – это ваше лицо. И если
+Вы хотите произвести хорошее впечатление,
+оставляйте все самое личное «под замком».</p>
+<h1 class="a">Не старайтесь показаться
+в сети лучше, чем Вы есть</h1>
+<img src="../img/reality.png" alt="reality" class="">
+<br>
+<br>
+<h1 class="a">Какой не должна быть
+страничка в соц. сетях</h1>
+<p align="left">Не стоит использовать чужую
+фотографию в качестве аватарки для
+своей странички. Герой «украденного»
+кадра может пожаловаться в
+администрацию соц.сети, и Ваш
+аккаунт заблокируют.</p>
+  <p align="left">Указывайте настоящее имя.
+«Псевдонимы» могут негативно
+характеризовать Вас в глазах коллег и
+будущих работодателей.</p>
+    <p align="left">Не размещайте персональные данные,
+которые могут Вас скомпрометировать
+или стать причиной для излишнего
+беспокойства.</p>
+      <p align="left">Уделяйте значение тому, о чем Вы
+пишете на странице, и тем репостам,
+которые делаете из пабликов и со
+страниц своих друзей. Они также
+работают на Ваш имидж.</p>
+        <p align="left">С особым вниманием заполняйте поля
+Вашей карьеры: слишком быстрая
+смена работы может стать причиной
+отказа при конкурсе на желаемую
+должность. Сегодня работодатели
+уделяют особое внимание Вашему
+образу в сети: если он негативный
+и может причинить вред репутации
+компании, Вы можете просто не дойти
+до собеседования.</p>
+          <p align="left">Не забывайте об этом и всегда
+смотрите на Вашу страничку со
+стороны.</p>
+<p align="left">«Нет смысла надеяться, что другие оценят Вас за Ваш
+характер и личность, не обратив внимания на то, как Вы
+выглядите».</p>
+<p align="left">«То, как ты выглядишь, заглушает то,
+что ты хочешь сказать».
+<div>
+  <a href="#" class="spoiler-trigger"><span class="Bordss" style="font-size:30px">Пример</span></a>
+  <div class="spoiler-block">
+      <img src="../img/sp1.png" alt="Пример страницы" />
+      <p><br></p>
+      <img src="../img/sp2.png" alt="Пример страницы" />
+  </div>
+</div>
+</p>
+
+
+
+ </div>
+ </div>
+ </div>
+ </div>
+ <!-- /#page-content-wrapper -->
+
+ </div>
+ <!-- /#wrapper -->
+
+<script>
+$(document).ready(function () {
+ var trigger = $('.hamburger'),
+ overlay = $('.overlay'),
+ isClosed = false;
+
+ trigger.click(function () {
+ hamburger_cross();
+ });
+
+ function hamburger_cross() {
+
+ if (isClosed == true) {
+ overlay.hide();
+ trigger.removeClass('is-open');
+ trigger.addClass('is-closed');
+ isClosed = false;
+ } else {
+ overlay.show();
+ trigger.removeClass('is-closed');
+ trigger.addClass('is-open');
+ isClosed = true;
+ }
+ }
+
+ $('[data-toggle="offcanvas"]').click(function () {
+ $('#wrapper').toggleClass('toggled');
+ });
+});
+$('a.embed').gdocsViewer();
+
+</script>
+<script type="text/javascript">
+  $(document).on('click','.spoiler-trigger',function(e){e.preventDefault();$(this).toggleClass('active');$(this).parent().find('.spoiler-block').first().slideToggle(300);})
+</script>
+</body>
+</html>
